@@ -17,9 +17,9 @@ class ExampleFeatureTest extends FeatureTest {
     "0136042597", "978-0136042594", "Artificial Intelligence")
 
   // save them to the mongodb database
-  BookShelf.saveBook(introToAlgorithms)
-  BookShelf.saveBook(operatingSystem)
-  BookShelf.saveBook(artificialIntel)
+  val itaId = BookShelf.saveBook(introToAlgorithms)
+  val osId = BookShelf.saveBook(operatingSystem)
+  var aiId = BookShelf.saveBook(artificialIntel)
 
   "Create Book with Post" in {
     server.httpPost(
@@ -50,5 +50,34 @@ class ExampleFeatureTest extends FeatureTest {
         "Book ISBN-10 : 1118129385\n" +
         "Book ISBN-13 : 978-1118129388" +
         "\nBook desc : Operating System")
+  }
+
+  "Remove Book with Post" in {
+    server.httpPost(
+      path = "/remove",
+      postBody =
+        """1118129385""",
+      andExpect = Ok)
+  }
+
+  "Update Book with Post" in {
+    server.httpPost(
+      path = "/update",
+      postBody =
+        """
+          {
+            "name" : "Artificial Intelligence",
+            "author" : "Stuart R.",
+            "isbn10" : "0136042597",
+            "isbn13" : "978-0136042594",
+            "desc" : "Artificial Intelligence: A Modern Approach"
+          }
+        """,
+      andExpect = Ok,
+      withBody = "Book name : Artificial Intelligence\n" +
+        "Book author : Stuart R.\n" +
+        "Book ISBN-10 : 0136042597\n" +
+        "Book ISBN-13 : 978-0136042594" +
+        "\nBook desc : Artificial Intelligence: A Modern Approach")
   }
 }
