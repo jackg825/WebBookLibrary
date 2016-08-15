@@ -1,6 +1,6 @@
 package book
 
-class Book (var name : String,var author : String, var isbn10 : String, var isbn13 : String, var desc : String)
+case class Book (var name : String,var author : String, var isbn10 : String, var isbn13 : String, var desc : String)
 {
   val id = Book.newIdNumber
 

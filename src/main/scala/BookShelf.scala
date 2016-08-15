@@ -7,10 +7,10 @@ import book._
 
 
 object BookShelf {
+  val conn = MongoFactory.getConnection
 
   def buildMongoDbObject(book: Book): MongoDBObject = {
     val builder = MongoDBObject.newBuilder
-    builder += "id" -> book.id
     builder += "name" -> book.name
     builder += "author" -> book.author
     builder += "isbn10" -> book.isbn10
@@ -19,25 +19,52 @@ object BookShelf {
     builder.result
   }
 
+  // warning: don't use the 'get' method in real-world code
+  def convertDbObjectToBook(obj: MongoDBObject): Book = {
+    val name = obj.getAs[String]("name").get
+    val author = obj.getAs[String]("author").get
+    val isbn10 = obj.getAs[String]("isbn10").get
+    val isbn13 = obj.getAs[String]("isbn13").get
+    val desc = obj.getAs[String]("desc").get
+    Book(name, author, isbn10, isbn13, desc)
+  }
+
+  def findBook(isbn: String) = {
+    var isbnType = "isbn10"
+    if(isbn.length() == 15) {
+      isbnType = "isbn13"
+    }
+    val collection = MongoFactory.collection
+    val query = MongoDBObject(isbnType -> isbn)
+    val result = collection.findOne(query)          // Some
+    val book = convertDbObjectToBook(result.get)  // convert it to a Stock
+
+    book
+  }
+
   // our 'save' method
   def saveBook(book: Book) {
     val mongoObj = buildMongoDbObject(book)
     MongoFactory.collection.save(mongoObj)
   }
 
-  def exampleCreate() {
-    // create some Book instances
-    val introToAlgorithms = new Book("Introduction to Algorithms", "Thomas H. Cormen",
-      "0262033844", "978-0262033848", "Algorithms")
-    val operatingSystem = new Book("Operating System Concepts", "Abraham Silberschatz",
-      "1118129385", "978-1118129388", "Operating System")
-    val artificialIntel = new Book("Artificial Intelligence: A Modern Approach", "Stuart Russell",
-      "0136042597", "978-0136042594", "Artificial Intelligence")
-
-    // save them to the mongodb database
-    saveBook(introToAlgorithms)
-    saveBook(operatingSystem)
-    saveBook(artificialIntel)
+  def removeBook(objectId : String = "") {
+    if(objectId == "")
+      throw new Exception("cannot remove empty object")
+    val query = MongoDBObject("_id" -> objectId)
+    val result = MongoFactory.collection.findAndRemove(query)
   }
+/*
+  def updateBook(book : Book): Book = {
+    // create a new Stock object
+    val google = Stock("GOOG", 500)
+
+    // search for an existing document with this symbol
+    var query = MongoDBObject("symbol" -> "GOOG")
+
+    // replace the old document with one based on the 'google' object
+    val res1 = collection.findAndModify(query, buildMongoDbObject(google))
+    println("findAndModify: " + res1)
+  }*/
 
 }
