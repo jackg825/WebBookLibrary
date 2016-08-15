@@ -8,7 +8,7 @@ class ExampleFeatureTest extends FeatureTest {
 
   override val server = new EmbeddedHttpServer(new ExampleServer)
 
-  // create some Book instances
+//  Create example books to database Start
   val introToAlgorithms = new Book("Introduction to Algorithms", "Thomas H. Cormen",
     "0262033844", "978-0262033848", "Algorithms")
   val operatingSystem = new Book("Operating System Concepts", "Abraham Silberschatz",
@@ -16,10 +16,10 @@ class ExampleFeatureTest extends FeatureTest {
   val artificialIntel = new Book("Artificial Intelligence: A Modern Approach", "Stuart Russell",
     "0136042597", "978-0136042594", "Artificial Intelligence")
 
-  // save them to the mongodb database
   val itaId = BookShelf.saveBook(introToAlgorithms)
   val osId = BookShelf.saveBook(operatingSystem)
   var aiId = BookShelf.saveBook(artificialIntel)
+//  Create example books to database End
 
   "Create Book with Post" in {
     server.httpPost(

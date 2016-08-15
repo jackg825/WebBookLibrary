@@ -7,7 +7,6 @@ import bookshelf._
 import com.twitter.finatra.response.Mustache
 
 class HomeController extends Controller {
-
   get("/") { request: Request =>
     response.ok.file("index.html")
   }

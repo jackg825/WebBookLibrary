@@ -38,8 +38,8 @@ object BookShelf {
     }
     val collection = MongoFactory.collection
     val query = MongoDBObject(isbnType -> isbn)
-    val result = collection.findOne(query)          // Some
-    val book = convertDbObjectToBook(result.get)  // convert it to a Stock
+    val result = collection.findOne(query)
+    val book = convertDbObjectToBook(result.get)
 
     book
   }
@@ -60,7 +60,6 @@ object BookShelf {
     }
     val query = MongoDBObject(isbnType -> isbn)
     val result = MongoFactory.collection.findAndRemove(query)
-    result
   }
 
   def updateBook(book : Book){

@@ -1,7 +1,6 @@
 package book
 
-case class Book (var name : String,var author : String, var isbn10 : String, var isbn13 : String, var desc : String)
-{
+case class Book (var name : String,var author : String, var isbn10 : String, var isbn13 : String, var desc : String) {
   def setName(name : String) {
     this.name = name
   }
