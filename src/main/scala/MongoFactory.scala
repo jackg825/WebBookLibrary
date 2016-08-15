@@ -1,3 +1,5 @@
+package mongoFactory
+
 import com.mongodb.casbah.MongoCollection
 import com.mongodb.casbah.MongoConnection
 
