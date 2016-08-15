@@ -10,6 +10,7 @@ object BookShelf {
 
   def buildMongoDbObject(book: Book): MongoDBObject = {
     val builder = MongoDBObject.newBuilder
+    builder += "id" -> book.id
     builder += "name" -> book.name
     builder += "author" -> book.author
     builder += "isbn10" -> book.isbn10
