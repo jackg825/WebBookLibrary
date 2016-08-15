@@ -7,6 +7,8 @@ object ExampleServerMain extends ExampleServer
 
 class ExampleServer extends HttpServer {
 
+  override val disableAdminHttpServer = true
+
   override def defaultFinatraHttpPort = ":7070"
 
   override def configureHttp(router: HttpRouter) {
