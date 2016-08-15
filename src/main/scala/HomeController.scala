@@ -20,21 +20,33 @@ class HomeController extends Controller {
   }
 
   post("/create") { inputBook: Book =>
-      BookShelf.saveBook(inputBook)
-      "Book name : " + inputBook.name +
-      "\nBook author : " + inputBook.author +
-      "\nBook ISBN-10 : " + inputBook.isbn10 +
-      "\nBook ISBN-13 : " + inputBook.isbn13 +
-      "\nBook desc : " + inputBook.desc
+    BookShelf.saveBook(inputBook)
+    "Book name : " + inputBook.name +
+    "\nBook author : " + inputBook.author +
+    "\nBook ISBN-10 : " + inputBook.isbn10 +
+    "\nBook ISBN-13 : " + inputBook.isbn13 +
+    "\nBook desc : " + inputBook.desc
   }
-
 
   post("/find") { inputString: String =>
     val outputBook = BookShelf.findBook(inputString)
     "Book name : " + outputBook.name +
-      "\nBook author : " + outputBook.author +
-      "\nBook ISBN-10 : " + outputBook.isbn10 +
-      "\nBook ISBN-13 : " + outputBook.isbn13 +
-      "\nBook desc : " + outputBook.desc
+    "\nBook author : " + outputBook.author +
+    "\nBook ISBN-10 : " + outputBook.isbn10 +
+    "\nBook ISBN-13 : " + outputBook.isbn13 +
+    "\nBook desc : " + outputBook.desc
+  }
+
+  post("/remove") { inputString: String =>
+    BookShelf.removeBook(inputString)
+  }
+
+  post("/update") { inputBook: Book =>
+    BookShelf.updateBook(inputBook)
+    "Book name : " + inputBook.name +
+    "\nBook author : " + inputBook.author +
+    "\nBook ISBN-10 : " + inputBook.isbn10 +
+    "\nBook ISBN-13 : " + inputBook.isbn13 +
+    "\nBook desc : " + inputBook.desc
   }
 }

@@ -8,7 +8,8 @@ lazy val versions = new {
   val finatra = "2.2.0"
   val guice = "4.0"
   val logback = "1.1.7"
-  val mongodb = "3.1.1"
+  val mongodb = "1.0.1"
+  val casbah = "3.1.1"
 }
 
 resolvers ++= Seq(
@@ -40,4 +41,4 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.2.3" % "test",
   "org.specs2" %% "specs2" % "2.3.12" % "test",
 
-  "org.mongodb" %% "casbah" % versions.mongodb)
+  "org.mongodb" %% "casbah" % versions.casbah)

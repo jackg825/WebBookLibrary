@@ -2,8 +2,6 @@ package book
 
 case class Book (var name : String,var author : String, var isbn10 : String, var isbn13 : String, var desc : String)
 {
-  val id = Book.newIdNumber
-
   def setName(name : String) {
     this.name = name
   }
@@ -19,9 +17,4 @@ case class Book (var name : String,var author : String, var isbn10 : String, var
   def setDesc(name : String) {
     this.desc = desc
   }
-}
-
-object Book {
-  private var idNumber = 100
-  private def newIdNumber = { idNumber += 1; idNumber}
 }

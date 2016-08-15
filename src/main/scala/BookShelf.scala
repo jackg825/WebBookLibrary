@@ -19,7 +19,6 @@ object BookShelf {
     builder.result
   }
 
-  // warning: don't use the 'get' method in real-world code
   def convertDbObjectToBook(obj: MongoDBObject): Book = {
     val name = obj.getAs[String]("name").get
     val author = obj.getAs[String]("author").get
@@ -29,7 +28,10 @@ object BookShelf {
     Book(name, author, isbn10, isbn13, desc)
   }
 
-  def findBook(isbn: String) = {
+  def findBook(isbn: String): Book = {
+    if(isbn == "")
+      throw new Exception("cannot find with empty input")
+
     var isbnType = "isbn10"
     if(isbn.length() == 15) {
       isbnType = "isbn13"
@@ -42,29 +44,31 @@ object BookShelf {
     book
   }
 
-  // our 'save' method
   def saveBook(book: Book) {
     val mongoObj = buildMongoDbObject(book)
     MongoFactory.collection.save(mongoObj)
+    mongoObj.get("_id")
   }
 
-  def removeBook(objectId : String = "") {
-    if(objectId == "")
+  def removeBook(isbn: String) {
+    if(isbn == "")
       throw new Exception("cannot remove empty object")
-    val query = MongoDBObject("_id" -> objectId)
+
+    var isbnType = "isbn10"
+    if(isbn.length() == 15) {
+      isbnType = "isbn13"
+    }
+    val query = MongoDBObject(isbnType -> isbn)
     val result = MongoFactory.collection.findAndRemove(query)
+    result
   }
-/*
-  def updateBook(book : Book): Book = {
-    // create a new Stock object
-    val google = Stock("GOOG", 500)
 
-    // search for an existing document with this symbol
-    var query = MongoDBObject("symbol" -> "GOOG")
+  def updateBook(book : Book){
+    val collection = MongoFactory.collection
+    val query = MongoDBObject("isbn10" -> book.isbn10)
 
-    // replace the old document with one based on the 'google' object
-    val res1 = collection.findAndModify(query, buildMongoDbObject(google))
-    println("findAndModify: " + res1)
-  }*/
+    val resu1t = collection.findAndModify(query, buildMongoDbObject(book))
+    println("findAndModify: " + resu1t)
+  }
 
 }
