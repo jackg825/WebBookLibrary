@@ -1,5 +1,6 @@
 package bookshelf
 
+import scala.collection.mutable.ArrayBuffer
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah._
 import mongoFactory._
@@ -16,6 +17,7 @@ object BookShelf {
     builder += "isbn10" -> book.isbn10
     builder += "isbn13" -> book.isbn13
     builder += "desc" -> book.desc
+    builder += "img" -> book.img
     builder.result
   }
 
@@ -25,16 +27,41 @@ object BookShelf {
     val isbn10 = obj.getAs[String]("isbn10").get
     val isbn13 = obj.getAs[String]("isbn13").get
     val desc = obj.getAs[String]("desc").get
-    Book(name, author, isbn10, isbn13, desc)
+    val img = obj.getAs[String]("img").get
+    Book(name, author, isbn10, isbn13, desc, img)
+  }
+
+  def allBook(): ArrayBuffer[ArrayBuffer[Book]] = {
+    val collection = MongoFactory.collection
+    val result = collection.find()
+    type Row = ArrayBuffer[Book]
+    var RowOfBook = new Row
+    val ArrayOfRows = new ArrayBuffer[Row]
+
+    var count = 0
+    for( obj <- result ) {
+      RowOfBook += convertDbObjectToBook(obj)
+      if(count % 4 == 3) {
+        ArrayOfRows += RowOfBook
+        RowOfBook = new Row
+      }
+      count += 1
+    }
+
+    if(count%4 == 0)  RowOfBook = new Row
+    RowOfBook += Book("addSign","add","add","add","add","http://icons.veryicon.com/ico/System/Icons8%20Metro%20Style/Mathematic%20Plus2.ico")
+    ArrayOfRows += RowOfBook
+
+    ArrayOfRows
   }
 
   def findBook(isbn: String): Book = {
     if(isbn == "")
       throw new Exception("cannot find with empty input")
 
-    var isbnType = "isbn10"
-    if(isbn.length() == 15) {
-      isbnType = "isbn13"
+    var isbnType = "isbn13"
+    if(isbn.length() == 10) {
+      isbnType = "isbn10"
     }
     val collection = MongoFactory.collection
     val query = MongoDBObject(isbnType -> isbn)
@@ -54,9 +81,9 @@ object BookShelf {
     if(isbn == "")
       throw new Exception("cannot remove empty object")
 
-    var isbnType = "isbn10"
-    if(isbn.length() == 15) {
-      isbnType = "isbn13"
+    var isbnType = "isbn13"
+    if(isbn.length() == 11) {
+      isbnType = "isbn10"
     }
     val query = MongoDBObject(isbnType -> isbn)
     val result = MongoFactory.collection.findAndRemove(query)
@@ -66,8 +93,7 @@ object BookShelf {
     val collection = MongoFactory.collection
     val query = MongoDBObject("isbn10" -> book.isbn10)
 
-    val resu1t = collection.findAndModify(query, buildMongoDbObject(book))
-    println("findAndModify: " + resu1t)
+    collection.findAndModify(query, buildMongoDbObject(book))
   }
 
 }

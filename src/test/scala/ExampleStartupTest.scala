@@ -2,6 +2,8 @@ import com.google.inject.Stage
 import com.twitter.finatra.http.EmbeddedHttpServer
 import com.twitter.inject.Test
 
+import bookshelf._
+
 class ExampleStartupTest extends Test {
 
   val server = new EmbeddedHttpServer(
@@ -11,4 +13,6 @@ class ExampleStartupTest extends Test {
   "server" in {
     server.assertHealthy()
   }
+
+  BookShelf.allBook()
 }

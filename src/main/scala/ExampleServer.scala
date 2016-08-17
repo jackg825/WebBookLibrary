@@ -18,6 +18,7 @@ class ExampleServer extends HttpServer {
       .filter[TraceIdMDCFilter[Request, Response]]
       .filter[CommonFilters]
       .add[HomeController]
+      .add[ResourcesController]
   }
 
 }

@@ -1,0 +1,31 @@
+{{<layout.mustache}}
+{{$body}}
+
+    <div class="container">
+      <form method="post">
+        <lable> Search with ISBN : </lable>
+        <div class="input-control text fullsize" data-role="input">
+            <input type="text">
+            <button class="submit"><span class="mif-search"></span></button>
+        </div>
+      </form>
+    </div>
+
+    <div class="container">
+      <div class="flex-grid">
+        {{#arrayOfBookArray}}
+            <div class="row cell12 flex-just-center">
+              {{#.}}
+                <div class="cell size3 margin5 flex-just-center">
+                  <a href="http://localhost:7070/b/{{isbn13}}">
+                  <img src="{{img}}">
+                  </a>
+                </div>
+              {{/.}}
+            </div>
+        {{/arrayOfBookArray}}
+      </div>
+    </div>
+
+{{/body}}
+{{/layout.mustache}}

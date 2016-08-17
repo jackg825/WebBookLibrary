@@ -1,0 +1,65 @@
+{{<layout.mustache}}
+{{$body}}
+
+    <div class="container">
+      <div class="flex-grid">
+        <form method="post">
+            <div class="row cells4 flex-just-center">
+              <div class="cell size4 margin10">
+                <lable>Book Cover Image Link : </lable>
+                <div class="input-control text full-size">
+                    <input type="text" name="img" value="{{book.img}}">
+                </div>
+              </div>
+            </div>
+            <div class="row cells4 flex-just-center">
+              <div class="cell size2 margin5">
+                <lable>Book Name : </lable>
+                <div class="input-control text full-size">
+                    <input type="text" name="name" value="{{book.name}}">
+                </div>
+              </div>
+              <div class="cell size2 margin5">
+                <lable>Book Author : </lable>
+                <div class="input-control text full-size">
+                    <input type="text" name="author" value="{{book.author}}">
+                </div>
+              </div>
+            </div>
+            <div class="row cells4 flex-just-center">
+              <div class="cell size2 margin5">
+                <lable>Book ISBN-10 : </lable>
+                <div class="input-control text full-size">
+                    <input type="text"  readonly="" name="isbn10" value="{{book.isbn10}}">
+                </div>
+              </div>
+              <div class="cell size2 margin5">
+                <lable>Book ISBN-13 : </lable>
+                <div class="input-control text full-size">
+                    <input type="text"  readonly="" name="isbn13" value="{{book.isbn13}}">
+                </div>
+              </div>
+            </div>
+            <div class="row cells4 flex-just-center">
+              <div class="cell size4 margin10">
+                <lable>Book Description : </lable>
+                <div class="input-control text full-size">
+                    <input type="text" name="desc" value="{{book.desc}}">
+                </div>
+              </div>
+            </div>
+
+            <div class="row cells4 flex-just-center">
+              <div class="cell size2 margin5">
+                <button type="submit" formmethod="post" formaction="/edit/{{book.isbn13}}" class="button loading-pulse lighten primary full-size">Save</button>
+              </div>
+              <div class="cell size2 margin5">
+                <button type="submit" formmethod="get" formaction="/" class="button full-size">Cancel</button>
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>
+
+{{/body}}
+{{/layout.mustache}}
