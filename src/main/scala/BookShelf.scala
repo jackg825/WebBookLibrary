@@ -49,7 +49,7 @@ object BookShelf {
     }
 
     if(count%4 == 0)  RowOfBook = new Row
-    RowOfBook += Book("addSign","add","add","add","add","http://icons.veryicon.com/ico/System/Icons8%20Metro%20Style/Mathematic%20Plus2.ico")
+    RowOfBook += Book("addSign","add","add","add","add","http://i.imgur.com/8aCUyuI.jpg")
     ArrayOfRows += RowOfBook
 
     ArrayOfRows

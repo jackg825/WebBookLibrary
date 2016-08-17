@@ -8,6 +8,7 @@ import bookshelf._
 import com.twitter.finatra.response.Mustache
 import com.twitter.server.util.JsonConverter
 
+
 class HomeController extends Controller {
   val address = "http://localhost:7070"
 

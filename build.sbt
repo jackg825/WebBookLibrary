@@ -10,6 +10,7 @@ lazy val versions = new {
   val logback = "1.1.7"
   val mongodb = "1.0.1"
   val casbah = "3.1.1"
+  val gson = "2.7"
 }
 
 resolvers ++= Seq(
