@@ -9,17 +9,18 @@ import com.twitter.finatra.response.Mustache
 import com.twitter.server.util.JsonConverter
 
 class HomeController extends Controller {
+  val address = "http://localhost:7070"
 
   @Mustache("indexView")
   case class indexView(arrayOfBookArray: ArrayBuffer[ArrayBuffer[Book]])
   get("/") { request: Request =>
     indexView(BookShelf.allBook())
   }
-  
+
   post("/") { request: Request =>
     response.
       temporaryRedirect.
-      location("/b/" + request.params("isbn")).toFuture
+      location(address + "/b/" + request.params("isbn")).toFuture
   }
 
   @Mustache("bookInfo")
@@ -32,7 +33,7 @@ class HomeController extends Controller {
   get("/b/add") { request: Request =>
       response.
         temporaryRedirect.
-        location("/add")
+        location(address + "/add")
   }
 
   get("/b/:isbn") { request: Request =>
@@ -40,11 +41,6 @@ class HomeController extends Controller {
   }
 
   post("/b/:isbn") { request: Request =>
-    if(request.params("isbn") == "add") {
-      response.
-        temporaryRedirect.
-        location("/123")
-    }
     infoView(BookShelf.findBook(request.params("isbn")))
   }
 
@@ -65,7 +61,7 @@ class HomeController extends Controller {
 
     response.
       temporaryRedirect.
-      location("/b/" + inputBook.isbn13).toFuture
+      location(address + "/b/" + inputBook.isbn13).toFuture
   }
 
   get("/delete/:isbn") { request: Request =>
@@ -73,7 +69,7 @@ class HomeController extends Controller {
 
     response.
       temporaryRedirect.
-      location("/")
+      location(address + "/")
   }
 
   get("/edit/:isbn") { request: Request =>
@@ -93,7 +89,7 @@ class HomeController extends Controller {
 
     response.
       temporaryRedirect.
-      location("/b/" + editBook.isbn13).toFuture
+      location(address + "/b/" + editBook.isbn13).toFuture
   }
 
   post("/create") { inputBook: Book =>
